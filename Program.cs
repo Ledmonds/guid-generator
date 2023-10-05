@@ -1,4 +1,5 @@
 ﻿using Fclp;
+using guid_spammer.Generators;
 
 internal class Program
 {
@@ -9,16 +10,17 @@ internal class Program
 		parser.Parse(args);
 
 		var guidFactory = new GuidFactory();
-		var guidFormatter = new GuidFormatter();
 
-		var guids = guidFactory.GenerateGuids(parser.Object.Count, parser.Object.Unique);
-		var formattedGuids = guidFormatter.FormatGuids(
-			guids,
-			new(parser.Object.Uppercase, parser.Object.Brace, parser.Object.Hypenise)
+		var unformattedGuids = guidFactory.GenerateGuids(parser.Object.Count, parser.Object.Unique);
+		var formattingOptions = new GuidFormatterOptions(
+			parser.Object.Uppercase,
+			parser.Object.Brace,
+			parser.Object.Hypenise
 		);
 
-		foreach (var formattedGuid in formattedGuids)
+		foreach (var guid in unformattedGuids)
 		{
+			var formattedGuid = guid.FormatGuid(formattingOptions);
 			Console.WriteLine(formattedGuid);
 		}
 	}

@@ -1,1 +1,0 @@
-﻿public record GuidFormatterOptions(bool Uppercase, bool Brace, bool Hypenise);
